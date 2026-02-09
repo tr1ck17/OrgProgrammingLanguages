@@ -1,0 +1,218 @@
+Programming Domains:
+	Scientific Applications:
+		Large numbers of floating point computations
+		Fortran
+	Business applications
+		Produce reports, use decimal numbers, and characters
+		COBOL
+	Artificial Intelligence
+		Symbols rather than numbers manipulated
+		LISP
+	Systems Programming
+		Need efficiency because of continuous use
+		C
+	Web Software
+		Eclectic collection of languages: markup, scripting (PHP), general purpose (Java)
+
+
+Language Evaluation Criteria
+	Readability:
+		ease with which programs can be read and understood
+	Writability:
+		ease with which a language can be used to create programs
+	Reliability:
+		conformance to specifications (i.e. performs to its specifications)
+	Cost: 
+		the ultimate total cost
+
+Readability:
+	Overall simplicity
+		manageable set of features and constructs
+		minimal feature multiplicity
+		minimal operator overloading
+	Orthogonality
+		relatively small set of primitive constructs can be combined in a relatively small number of ways
+		every possible combination is legal
+	Data Types
+		adequate predefined data types
+	Syntax Considerations
+		identifier forms: flexible composition
+		special words and methods of forming compound statements
+		form and meaning; self-descriptive constructs, meaningful keywords
+
+Writability:
+	Simplicity and Orthogonality:
+		few constructs, small number of primitives, small set of rules for combining them
+	Support for abstractions:
+		the ability to define and use complex structures or operations in ways that allow details to be ignored
+	Expressivity:
+		set of relatively convenient ways of specifying operations
+		strength and number of operators and predefined functions
+
+Reliability
+	Type Checking:
+		testing for type errors
+	Exception Handling:
+		intercept run-time errors and take corrective measures
+	Aliasing:
+		Presence of two or more distinct referencing methods for the same memory location
+	Readability and Writability:
+		a language that does not support "natural" ways of expressing an algorithm will require the use of "unnatural" approaches, and hence reduced reliability
+
+Cost
+	training programmers to use the language
+	writing programs (closeness to particular applications)
+	executing programs
+	reliability: poor reliability leads to high costs
+	maintaining programs
+
+Others:
+	Portability
+		the ease with which programs can be moved from one implementation to another
+	Generality
+		the applicability to a wide range of applications
+	Well-definedness
+		the completeness and precision of the language's official definition
+
+Influences on Language Design
+	Computer Architecture
+		languages are developed around the prevalent computer architecture, known as von Neumann architecture
+	Program Design Methodologies
+		new software development methodologies (e.g. object-oriented software development) led to new programming paradigms and by extension, new programming languages
+
+Computer Architecture Influence
+	Well-known computer architecture: Von Neumann
+	Imperative languages, most dominant, because of Von Neumann computers
+		Data and programs stored in memory
+		memory is separate from CPU
+		instructions and data are piped from memory to CPU
+		Basis for imperative languages
+			Variables model memory cells
+			Assignment statements model piping
+			Iteration is efficient
+Von Neumann Architecture
+	Fetch-execute-cycle
+		initialize the program counter
+		repeat forever
+			fetch instruction pointer by the counter
+			increment the counter
+			decode the instruction
+			execute instruction
+		end repeat
+
+Programming Methodologies Influences
+	1950-60's: Simple applications; worry about machine efficiency
+	Late 60's: people efficiency became important: readability, better control structures
+		structured programming
+		top-down design and step-wise refinement
+	Late 70's: Process-oriented to data-oriented
+		data abstraction
+	Middle 1980's: Object-oriented programming
+		data abstraction + inheritance + polymorphism
+
+Language categories
+	Imperative
+		Central features are variables, assignment statements, and iteration
+		Include languages that support object-oriented programming
+		Include scripting languages
+		Include the visual languages
+		Examples: C, Java, Perl, JavaScript, Visual BASIC .NET, C++
+	Functional
+		Main means of making computations is by applying functions to given parameters
+		Examples: LISP, Scheme, ML, F#
+	Logic
+		Rule-based (rules are specified in no particular order)
+		Example: Prolog
+	Markup/programming hybrid
+		Markup languages extended to support some programming
+		Examples: JSTL, XSLT
+
+Language Design Trade-Offs
+	Reliability vs. cost of execution
+		Example: Java demands all references to array elements be checked for proper indexing, which leads to increased execution costs
+	Readability vs. writability
+		Example: APL provides many powerful operators (and a large number of new symbols), allowing complex computations to be written in a compact program but at the cost of poor readability
+	Writability (flexibility) vs. reliability
+		Example: C++ pointers are powerful and very flexible but are unreliable
+
+Implementation Methods
+	Compilation
+		Programs are translated into machine language; includes JIT systems
+		Use: Large commercial applications
+	Pure Interpretation
+		Programs are interpreted by another program known as an interpreter
+		Use: Small programs or when efficiency is not an issue
+	Hybrid Implementation Systems
+		A compromise between compilers and pure interpreters
+		Use: Small and medium systems when efficiency is not the first concern
+
+Compilation
+	Translate high-level program (source language) into machine code (machine language)
+	Slow translation, fast execution
+	Compilation process has several phases:
+		lexical analysis: converts characters in the source program into lexical units
+		syntax analysis: transforms lexical units into parse trees which represent thee syntactic structure of program
+		semantics analysis: generate intermediate code
+		code generation: machine code is generated
+
+Additional Compilation Terminologies
+	Load module (executable image): the user and system code together
+	Linking and loading: the process of collecting system program units and linking them to a user program
+	
+Von Neumann Bottleneck
+	Connection speed between a computer's memory and its processor determines the speed of the computer
+	Program instructions often can be executed much faster than the speed of the connection; the connection speed thus results in a bottleneck
+	Known as the Von Neumann bottleneck; it's the primary limiting factor in the speed of computers
+
+Pure Interpretation
+	No translation
+	Easier implementation of programs (run-time errors can easily and immediately be displayed)
+	Slower execution (10 to 100 times slower than compiled programs)
+	Often requires more space
+	Now rare for traditional high-level languages
+	Significant comeback with some Web scripting languages (e.g. JavaScript, PHP)
+
+Hybrid Implementation Systems
+	A compromise between compilers and pure interpreters
+	A high-level language program is translated to an intermediate language that allows easy interpretation
+	Faster than pure interpretation
+	Examples
+		Perl programs are partially compiled to detect errors before interpretation
+		Initial implementation of Java were hybrid; the intermediate form, byte code, provides portability to any machine that has a byte code interpreter and a run-time system (together, these are called Java Virtual Machine)
+
+Just-in-Time Implementation Systems
+	Initially translate programs to an intermediate language
+	Then compile the intermediate language of the subprograms into machine code when they are called
+	Machine code version is kept for subsequent calls
+	JIT systems are widely used for JAVA programs
+	.NET languages are implemented with a JIT system
+	In essence, JIT systems are delayed compilers
+
+Preprocessors
+	Preprocessor macros (instructions) are commonly used to specify that code from another file is to be included
+	A preprocessor processes a program immediately before the program is compiled to expand embedded preprocessor macros
+	A well-known example: C preprocessor
+		expands #incluude, #define, and similar macros
+
+Programming Environments
+	A collection of tools used in software development
+	UNIX
+		an older OS and tool collection
+		Nowadays often used through a GUI (e.g. CDE, KDE, or GNOME) that runs on top of UNIX
+	Microsoft Visual Studio.NET
+		A large, complex visual environment
+		Used to build Web applications and non-Web applications in any .NET language
+	NetBeans
+		Related to Visual Studio .NET, except for applications in Java
+
+Extra; Compilation of Program Step-by-Step:
+Timeline of Compilation Processes:
+	Preprocessor: prepares text (macros, header files)
+	Lexical Analysis: Characters -> Tokens
+	Syntax Analysis: Tokens -> Parse Trees (checks structure)
+	Semantic Analysis: Uses symbol table to check types/logic (type checking)
+	Intermediate Code Generation: Creates the machine-independent version (compatible with as many kinds of hardware as possible)
+	Optimization: (Optional) cleans up intermediate code for better speed
+	Code Generation: intermediate code -> machine language
+	Linker: combines the machine code with library machine code (connects the preprocessor libraries with source code, and combines into 1 executable file)
+	Loader: puts final file into memory for the CPU to begin the fetch-execute cycle
