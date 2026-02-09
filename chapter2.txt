@@ -1,0 +1,246 @@
+Zuse's Plankalkul
+	Designed in 1945, published in 1972
+	Never implemented
+	Advanced data structures
+		floating point, arrays, records
+	Invariants
+
+Plankalkul Syntax
+	Assignment statement to assign the expression A[4] + 1 to A[5]
+	
+	  | A + 1 => A
+	V | 4	     5	 (subscripts)
+	S | 1.n      1.n  (data types)
+
+Minimal Hardware Programming: Pseudocodes
+	Wrong with machine code:
+		poor readability
+		poor modifiability
+		expression coding tedious
+		machine deficiencies -- no indexing or floating point
+
+Pseudocodes: Short Code
+	Short Code developed by Mauchl in 1949 for BINAC computers
+		Expressions were coded, left to right
+		Example of operations:
+	
+		01 -	06 abs value		1n (n+2)nd power
+		02 )	07 + 			2n (n+2)nd root
+		03 =	08 pause		4n if <= n
+		04 /	09 (			58 print and tab
+
+Pseudocodes: Speedcoding
+	Speedcoding developed by Backus in 1954 for IBM 701
+		Pseudo ops for arithmetic and math functions
+		Conditional and unconditional branching
+		Auto-increment registers for array access
+		Slow!
+		Only 700 words left for user program
+
+Pseudocodes: Related Systems
+	UNIVAC Compiling System
+		developed by team led by Grace Hopper
+		pseudocode expanded into machine code
+	David J. Wheeler (Cambridge University)
+		developed a method of using blocks of re-locatable addresses to solve the problem of absolute addressing
+
+IBM 704 and Fortran
+	Fortran 0: 1954 - not implemented
+	Fortran 1: 19557
+		designed for new IBM 704, which had index registers and floating point hardware
+			led to idea of compiled programming languages, because there was no place to hide the cost of interpretation (no floating point software)
+		environment of development
+			computers were small and unreliable
+			applications were scientific
+			no programming methodology or tools
+			machine efficiency was most important concern
+
+Design Process of Fortran
+	Impact of environment on Fortran I
+		no need for dynamic storage
+		need good array handling
+		no string handling, decimal arithmetic, or powerful input/output (for business software)
+
+Fortran I Overview
+	First implemented version of Fortran
+		names could have up to 6 characters
+		post-test counting loop (DO)
+		Formatted I/O
+		User-defined subprograms
+		Three-way selection statement (arithmetic IF)
+		no data typing statements
+		no separate compilation
+		compiler released in April 1957, after 18 worker years of effort
+		programs larger than 400 lines rarely compiled correctly, mainly due to poor reliability of 704
+		code was very fast
+		quickly became widely used
+
+Fortran II
+	distributed in 1958
+		independent compilation
+		fixed the bugs
+
+Fortran IV
+	evolved during 1960-62
+		explicit type declarations
+		logical selection statement
+		subprogram names could be parameters
+		ANSI standard in 1966
+
+Fortran 77
+	became the new standard in 1978
+		character string handling
+		logical loop control statement
+		If-Then-Else statement
+
+Fortran 90
+	most significant changes from Fortran 77
+		modules
+		dynamic arrays
+		pointers
+		recursion
+		CASE statement
+		Parameter type checking
+
+Latest versions of Fortran
+	Fortran 95 - relatively minor additions, plus some deletions
+	Fortran 2003 - support for OOP, procedure pointers, interoperability with C
+	Fortran 2008 - blocks for local scopes, co-arrays, 'Do Concurrent'
+
+Fortran Evaluation
+	highly optimizing compilers (all version before 90)
+		types and storage of all variables are fixed before run time
+	dramatically changed forever the way computers are used
+
+Functional Programming: Lisp
+	LISt Processing Language
+		designed at MIT by McCarthy
+	AI research needed a language to
+		process data in lists (rather than arrays)
+		symbolic computation (rather than numeric)
+	only two data types: atoms and lists
+	syntax is based on lambda calculus
+
+Lisp Evaluation
+	pioneered functional programming
+		no need for variables or assignment
+		control via recursion and conditional expressions
+	still the dominant language for AI
+	common Lisp and Scheme are contemporary dialects of Lisp
+	ML, Haskell, and F# are also functional programming languages, but use very different syntax
+
+Scheme
+	developed at MIT in mid 1970's
+	small
+	extensive use of static scoping
+	functions as first-class entities
+	simple syntax (and small size) make it ideal for educational applications
+	
+Common Lisp
+	an effort to combine features of several dialects of Lisp into a single language
+	large, complex, used in industry for some large applications
+
+The First Step Toward Sophistication: ALGOL 60
+	environment of development
+		FORTRAN had (barely) arrived for IBM 70x
+		many other languages were being developed, all for specific machines
+		no portable language; all were machine-dependent
+		no universal language for communicating algorithms
+	ALGOL 60 was the result of efforts to design a universal language
+
+Early Design Process
+	ACM and GAMM met for four days for design (May 27 to June 1, 1958)
+	goals of the language
+		close to mathematical notation
+		good for describing algorithms
+		must be translatable to machine code
+
+ALGOL 58
+	concept of type was formalized
+	names could be any length
+	arrays could have any number of subscripts
+	parameters were separated by mode (in&out)
+	subscripts were placed in brackets
+	compound statements(begin...end)
+	semicolon as a statement separator
+	assignment operator was :=
+	'if' had an 'else-if' clause
+	No I/O - "would make it machine dependent"
+
+ALGOL 58 Implementation
+	not meant to be implemented, but variations of it were (MAD, JOVIAL)
+	although IBM was initially enthusiastic, all support was dropped by mid 1959
+
+ALGOL 60 Overview
+	modified ALGOL 58 at 6-day meeting in Paris
+	new features
+		block structure (local scope)
+		two parameter passing methods
+		subprogram recursion
+		stack-dynamic arrays
+		still no I/O and no string handling
+
+ALGOL 60 Evaluation
+	successes
+		it was the standard way to publish algorithms for over 20 years
+		all subsequent imperative languages are based on it
+		first machine-independent language
+		first language whose syntax was formally defined (BNF)
+	failure
+		never widely used, especially in US
+		reasons
+			lack of I/O and the character set made programs non-portable
+			too flexible -- hard to implement
+			entrenchment of Fortran
+			formal syntax description
+			lack of support from IBM
+
+Computerizing Business Records: COBOL
+	environment of development
+		UNIVAC was beginning to use FLOW-MATIC
+		USAD was beginning to use AIMACO
+		IBM was developing COMTRAN
+
+COBOL Historical Background
+	based on FLOW-MATIC
+	FLOW-MATIC features
+		names up to 12 characters, with embedded hyphens
+		English names for arithmetic operators (no arithmetic expressions)
+		data and code were completely separate
+		the first word in every statement was a verb
+
+COBOL Design Process
+	first design meeting (Pentagon) - May 1959
+	design goals
+		must look like simple English
+		must be easy to use, even if that means it will be less powerful
+		must broaden the base of computer users
+		must not be biased by current compiler problems
+	design committee members were all from computer manufacturers and DoD branches
+	design problems: arithmetic expressions? subscripts? fights among manufacturers
+
+COBOL Evaluation
+	contributions
+		first macro facility in a high-level language
+		hierarchical data structures (records)
+		nested selection statements
+		long names (up to 30 characters), with hyphens
+		separate data division
+
+COBOL: DoD Influence
+	first language required by DoD
+		would have failed without DoD
+	still the most widely used business applications language
+
+The Beginning of Timesharing: Basic
+	designed by Kemeny & Kurtz at Dartmouth
+	design goals
+		easy to learn and use for non-science students
+		must be pleasant and friendly
+		fast turnaround for homework
+		free and private access
+		user time is more important than computer time
+	current popular dialect: Visual Basic
+	first widely used language with time sharing
+
+Everything for Everybody: PL/I
