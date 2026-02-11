@@ -244,3 +244,221 @@ The Beginning of Timesharing: Basic
 	first widely used language with time sharing
 
 Everything for Everybody: PL/I
+	Designed by IBM and SHARE
+	Computing situation in 1964 (IBM's point of view)
+		scientific computing
+			IBM 1620 and 7090 computers
+			FORTRAN
+			SHARE user group
+		business computing
+			IBM 1401, 7080 computers
+			COBOL
+			GUIDE user group
+PL/I Background
+	By 1963
+		scientific users began to need more elaborate I/O, like COBOL had;
+		business users began to need floating point and arrays for MIS
+		It looked like many shops would begin to need two kinds of computers, languages, and support staff -- too costly
+	The obvious solution
+		build a new computer to do both kinds of applications
+		design a new language to do both kinds of applications
+PL/I: Design Process
+	designed in five months by the 3 X 3 Committee
+		three members from IBM, three members from SHARE
+	initial concept
+		an extension of Fortran IV
+	initially called NPL (New Programming Language)
+	name changed to PL/I in 1965
+PL/I: Evaluation
+	PL/I contributions
+		first unit-level concurrency
+		first exception handling
+	switch-selectable recursion
+		first pointer data type
+		first array cross sections
+	Concerns
+		many new features were poorly designed
+		too large and too complex
+
+Two Early Dynamic Languages: APL and SNOBOL
+	characterized by dynamic typing and dynamic storage allocation
+	variables are untyped
+		a variable acquires a type when it is assigned a value
+	storage is allocated to a variable when it is assigned a value
+
+APL: A Programming Language
+	designed as a hardware description language at IBM by Ken Iverson around 1960
+		highly expressive (many operators, for both scalars and arrays of various dimensions)
+		programs are very difficult to read
+	still in use; minimal changes
+
+SNOBOL
+	designed as a string manipulation language at Bell Labs by Farber, Griswold, and Polensky in 1964
+	powerful operators for string pattern matchin
+	slower than alternative languages (and this no longer used for writing editors)
+	still used for certain text processing tasks
+
+The Beginning of Data Abstraction: SIMULA 67
+	designed primarily for system simulation in Norway by Nygaard and Dahl
+	based on ALGOL 60 and SIMULA I
+	primary contributions
+		coroutines - a kind of subprogram
+		classes, objects, and inheritance
+
+Orthogonal Design: ALGOL 68
+	from the continued development of ALGOL 60 but not a superset of that language
+	source of several new ideas (even though the language itself never achieved widespread use)
+	design is based on the concept of orthogonality
+		a few basic concepts, plus a few combining mechanisms
+
+ALGOL 68 Evaluation
+	contributions
+		user-defined data structures
+		reference types
+		dynamic arrays (called flex arrays)
+	comments
+		less usage than ALGOL 60
+		had strong influence on subsequent languages, especially Pascal, C, and Ada
+
+Pascal - 1971
+	developed by Wirth (a former member of the ALGGOL 68 committee)
+	designed for teaching structured programming
+	small, simple, nothing really new
+	largest impact was on teaching programming
+		from mid 1970s until the late 1990s, it was the most widely used by language for teaching programming
+
+C - 1972
+	designed for systems programming (at Bell Labs by Dennis Richie)
+	evolved primarily from BCLP and B, but also ALGOL 68
+	powerful set of operators, but poor type checking
+	initially spread through UNIC
+	through designed as a systems language, it has been used in many application areas
+
+Programming Based on Logic: Prolog
+	developed, by Comerauer and Roussel (university of Aix-Marseille), with help from Kowalski (University of Edinburgh)
+	based on formal logic
+	non-procedural
+	can be summarized as being an intelligent database system that uses an inferencing process to infer the truth of given queries
+	comparatively inefficient
+	few application areas
+	
+History's Largest Design Effort: Ada
+	huge design effort, involving hundreds of people, much money, and about eight years
+	sequence of requirements (1975-1978)
+		Strawman, Woodman, Tinman, Ironman, Steelman
+	named Ada after Augusta Ada Byron, the first programmer
+
+Ada Evaluation
+	contributions
+		packages - support for data abstraction
+		exception handling - elaborate
+		generic program units
+		concurrency - through the tasking model
+	comments
+		competitive design
+		included all that was then known about software engineering and language design
+		first compilers were very difficult; the first really usable compiler came nearly five years after the language design was completed
+
+Ada 95
+	Ada 95 (began in 1988)
+		support for OOP through type derivation
+		better control mechanisms for shared data
+		new concurrency features
+		more flexible libraries
+	Ada 2005
+		interfaces and synchronizing interfaces
+	popularity suffered because the DoD no longer requires its use but also because of popularity of C++
+
+Object-Oriented Programming: Smalltalk
+	developed at Xerox PARC, initially by Alan Kay, later by Adele Goldberg
+	first full implementation of an object-oriented language (data abstraction, inheritance, and dynamic binding)
+	pioneered the graphical user interface design
+	promoted OOP
+
+Combining Imperative and Object-Oriented Programming: C++
+	developed at Bell Labs by Stroustrup in 1980
+	evolved from C and SIMULA 67
+	facilities for object-oriented programming, taken partially from SIMULA 67
+	a large and complex language, in part because it supports both procedural and OO programming
+	rapidly grew in popularity, along with OOP
+	ANSI standard approved in November 1997
+	Microsoft's version: MC++
+		properties, delegates, interfaces, no multiple inheritance
+
+Related OOP Language
+	Swift - a replacement for Objective-C
+		released in 2014
+		two categories of types, classes and struct, like C#
+		used by Apple for systems programs
+
+Related OOP Language
+	Delphi - another related language
+		a hybrid language, like C++
+		began as an object-oriented version of Pascal
+		designed by Anders Hejlsberg, who also designed Turbo Pascal and C#
+
+An Imperative-Based Object-Oriented Language: Java
+	developed at Sun in the early 1990s
+		C and C++ were not satisfactory for embedded electronic devices
+	based on C++
+		significantly simplified (does not include 'struct', 'union', 'enum', pointer arithmetic, and half of the assignment coercions of C++)
+		supports ONLY OOP
+		has references, but not pointers
+		includes support for applets and a form of concurrency
+
+Java Evaluation
+	eliminated many unsafe features of C++
+	supports concurrency
+	libraries for applets, GUIs, database access
+	portable: Java Virtual Machine concept, JIT compilers
+	widely used for web programming
+	use increased faster than any previous language
+
+Scripting Languages for the Web
+	Perl
+		designed by Larry Wall - first released in 1987
+		variables are statically typed but implicitly declared
+		three distinctive namespaces, denoted by the first character of a variable's name
+		powerful, but somewhat dangerous
+		gained widespread use for CGI programming on the Web
+		also used for a replacement for UNIX system administration language
+
+	JavaScript
+		began at Netscape, but later became a joint venture of Netscape and Sun microsystems
+		a client-side HTML-embedded scripting language, often used to create dynamic HTML documents
+		purely interpreted
+		related to Java only through similar syntax
+
+	PHP
+		PHP: Hypertext Preprocessor, designed by Rasmus Lerdort
+		a server-side HTML-embedded scripting language, often used for form processing and database access through the Web
+		purely interpreted
+	
+	Python
+		an OO interpreted scripting language
+		used for form processing
+		dynamically typed, but type checked
+		supports lists, tuples, and hashes
+
+	RUBY
+		designed in Japan by Yukihiro Matsumoto (aka "Matz")
+		began as a replacement for Perl and Python
+		a pure object-oriented scripting language
+			all data are objects
+		most operators are implemented as methods, which can be redefined by user code
+		purely interpreted
+
+The Flagship .NET Language: C#
+	part of the .NET development platform (2000)
+	based on C++, Java, and Delphi
+	includes pointers, delegates, properties, enumeration types, a limited kind of dynamic typing, and anonymous types
+	is evolving rapidly
+
+Markup/Programming Hybrid Languages
+	XSLT
+		eXtensible Markup Language (XML): a metamarkup language
+		eXtensible Stylesheet Language Transformation (XSTL) transforms XML documents for display
+		Programming constructs (e.g., looping)
+	JSP
+		Java Server Pages: a collection of technologies to support dynamic Web documents
+		JSTL, a JSP library, includes a programming constructs in the form of HTML elements
