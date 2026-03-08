@@ -2,139 +2,139 @@ Chapter 4
 Lexical and Syntax Analysis
 
 Introduction
-	Language implementation systems must analyze source code, regardless of the specific implementation approach
-	Nearly all syntax analysis is based on a formal description of the syntax of the source language (BNF)
+ 	Language implementation systems must analyze source code, regardless of the specific implementation approach
+ 	Nearly all syntax analysis is based on a formal description of the syntax of the source language (BNF)
 
 Syntax Analysis
-	The syntax analysis portion of a language processor nearly always consists of two parts:
-		A low-level part called a lexical analyzer (mathematically, a finite automaton based on a regular grammar)
-		A high-level part called a syntax analyzer, or parser (mathematically, a push-down automaton based on a context-free grammar or BNF)
+ 	The syntax analysis portion of a language processor nearly always consists of two parts:
+ 		A low-level part called a lexical analyzer (mathematically, a finite automaton based on a regular grammar)
+ 		A high-level part called a syntax analyzer, or parser (mathematically, a push-down automaton based on a context-free grammar or BNF)
 
 Advantages of Using BNF to Describe Syntax
-	Provides a clear and concise syntax description
-	The parser can be based directly on the BNF
-	Parses based on BNF are easy to maintain
+ 	Provides a clear and concise syntax description
+ 	The parser can be based directly on the BNF
+ 	Parses based on BNF are easy to maintain
 
 Reasons to Separate Lexical and Syntax Analysis
-	Simplicity - less complex approaches can be used for lexical analysis; separating them simplifies the parser
-	Efficiency - separation allows optimization of the lexical analyzer
-	Portability - parts of the lexical analyzer may not be portable, but the parser always is portable
+ 	Simplicity - less complex approaches can be used for lexical analysis; separating them simplifies the parser
+ 	Efficiency - separation allows optimization of the lexical analyzer
+ 	Portability - parts of the lexical analyzer may not be portable, but the parser always is portable
 
 Lexical Analysis
-	A lexical analyzer is a pattern matcher for character strings
-	A lexical analyzer is a "front-end" for the parser
-	Identifies substrings of the source program that belong together - lexemes
-		Lexemes match a character pattern, which is associated with a lexical category called a token
-	Consider the following example of an assignment statement:
-		result = oldsum - value / 100;
-	Following are the tokens and lexemes of this statement:
-		Token			Lexeme
-		IDENT			result
-		ASSIGN_OP		=
-		IDENT			oldsum
-		SUB_OP			-
-		IDENT			value
-		DIV_OP			/
-		INT_LIT			100
-		SEMICOLON		;
+ 	A lexical analyzer is a pattern matcher for character strings
+ 	A lexical analyzer is a "front-end" for the parser
+ 	Identifies substrings of the source program that belong together - lexemes
+ 		Lexemes match a character pattern, which is associated with a lexical category called a token
+ 	Consider the following example of an assignment statement:
+ 		result = oldsum - value / 100;
+ 	Following are the tokens and lexemes of this statement:
+ 		Token			Lexeme
+ 		IDENT			result
+ 		ASSIGN_OP		=
+ 		IDENT			oldsum
+ 		SUB_OP			-
+ 		IDENT			value
+ 		DIV_OP			/
+ 		INT_LIT			100
+ 		SEMICOLON		;
 
-	The lexical analyzer is usually a function that is called by the parser when it needs the next token
-	Three approaches to building a lexical analyzer:
-		Write a formal description of the tokens and use a software tool that constructs a table-driven lexical analyzer from such a description
-		Design a state diagram that describes the tokens and write a program that implements the state diagram
-		Design a state diagram that describes the tokens and hand-construct a table-driven implementation of the state diagram
+ 	The lexical analyzer is usually a function that is called by the parser when it needs the next token
+ 	Three approaches to building a lexical analyzer:
+ 		Write a formal description of the tokens and use a software tool that constructs a table-driven lexical analyzer from such a description
+ 		Design a state diagram that describes the tokens and write a program that implements the state diagram
+ 		Design a state diagram that describes the tokens and hand-construct a table-driven implementation of the state diagram
 
 State Diagram Design
-	A naive diagram would have a transition from every state on every character in the source language - such a diagram would be very large
+ 	A naive diagram would have a transition from every state on every character in the source language - such a diagram would be very large
 
-	In many cases, transitions can be combined to simplify the state diagram
-		When recognizing an identifier, all uppercase and lowercase letters are equivalent - use a character class that includes all letters
-		When recognizing an integer literal, all digits are equivalent - use a digit class
-	Reserved words and identifiers can be recognized together (rather than having a part of the diagram for each reserved word)
-		Use a table lookup to determine whether a possible identifier is in fact a reserved word
-	Convenient utility subprograms:
-		getChar - gets the next character of input, puts it in nextChar, determines its class and puts the class in charClass
-		addChar - puts the character from nextChar into the place the lexeme is being accumulated, lexeme
-		lookup - determines whether the string in lexeme is a reserved word (returns a code)
+ 	In many cases, transitions can be combined to simplify the state diagram
+ 		When recognizing an identifier, all uppercase and lowercase letters are equivalent - use a character class that includes all letters
+ 		When recognizing an integer literal, all digits are equivalent - use a digit class
+ 	Reserved words and identifiers can be recognized together (rather than having a part of the diagram for each reserved word)
+ 		Use a table lookup to determine whether a possible identifier is in fact a reserved word
+ 	Convenient utility subprograms:
+ 		getChar - gets the next character of input, puts it in nextChar, determines its class and puts the class in charClass
+ 		addChar - puts the character from nextChar into the place the lexeme is being accumulated, lexeme
+ 		lookup - determines whether the string in lexeme is a reserved word (returns a code)
 
 Lexical Analyzer
-	Following is the output of a lexical analyzer when used on (sum + 47) / total
+ 	Following is the output of a lexical analyzer when used on (sum + 47) / total
 
-	Next token is: 25 Next lexeme is (
-	Next token is: 11 Next lexeme is sum
-	Next token is: 21 Next lexeme is +
-	Next token is: 10 Next lexeme is 47
-	Next token is: 26 Next lexeme is )
-	Next token is: 24 Next lexeme is /
-	Next token is: 11 Next lexeme is total
-	Next token is: -1 Next lexeme is EOF
+ 	Next token is: 25 Next lexeme is (
+ 	Next token is: 11 Next lexeme is sum
+ 	Next token is: 21 Next lexeme is +
+ 	Next token is: 10 Next lexeme is 47
+ 	Next token is: 26 Next lexeme is )
+ 	Next token is: 24 Next lexeme is /
+ 	Next token is: 11 Next lexeme is total
+ 	Next token is: -1 Next lexeme is EOF
 
 The Parsing Problem
-	Goals of the parser, given an input program:
-		Find all syntax errors; for each, produce an appropriate diagnostic message and recover quickly
-		Produce the parse tree or at least a trace of the parse tree, for the program
-	Two categories of parsers
-		Top down - produce the parse tree, beginning at the root
-			Order is that of a leftmost derivation
-			Traces or builds the parse tree in preorder
-		Bottom up - produce the parse tree, beginning at the leaves
-			Order is that of the reverse of a rightmost derivation
-	Useful parsers look only one token ahead in the input
+ 	Goals of the parser, given an input program:
+ 		Find all syntax errors; for each, produce an appropriate diagnostic message and recover quickly
+ 		Produce the parse tree or at least a trace of the parse tree, for the program
+ 	Two categories of parsers
+ 		Top down - produce the parse tree, beginning at the root
+ 			Order is that of a leftmost derivation
+ 			Traces or builds the parse tree in preorder
+ 		Bottom up - produce the parse tree, beginning at the leaves
+ 			Order is that of the reverse of a rightmost derivation
+ 	Useful parsers look only one token ahead in the input
 
-	Top-down Parsers
-		Given a sentential form, xAα (where, x is a string of terminal symbols, A is a nonterminal, and α is a mixed string), the parser must choose the correct A-rule to get the next sentential form in the leftmost derivation, using only the first token produced by A
-	The most common top-down parsing algorithms:
-		Recursive descent - a coded implementation
-		LL parsers - table driven implementation
+ 	Top-down Parsers
+ 		Given a sentential form, xAα (where, x is a string of terminal symbols, A is a nonterminal, and α is a mixed string), the parser must choose the correct A-rule to get the next sentential form in the leftmost derivation, using only the first token produced by A
+ 	The most common top-down parsing algorithms:
+ 		Recursive descent - a coded implementation
+ 		LL parsers - table driven implementation
 
-	Bottom-up parsers
-		Given a right sentential form, α, determine what substring of α is the right-hand side of the rule in the grammar that must be reduced to produce the previous sentential form in the rightmost derivation
-		The most common bottom-up parsing algorithms are in the LR family
-	Consider the following grammar and derivation:
-		S -> aAc
-		A -> aA|b
-		S => aAc => aaAc => aabc
+ 	Bottom-up parsers
+ 		Given a right sentential form, α, determine what substring of α is the right-hand side of the rule in the grammar that must be reduced to produce the previous sentential form in the rightmost derivation
+ 		The most common bottom-up parsing algorithms are in the LR family
+ 	Consider the following grammar and derivation:
+ 		S -> aAc
+ 		A -> aA|b
+ 		S => aAc => aaAc => aabc
 
-	The Complexity of Parsing
-		Parsers that work for any unambiguous grammar are complex and inefficient (O(n^3), where n is the length of the input)
-		Compilers use parses that only work for a subset of all unambiguous grammars, but do it in linear time (O(n), where n is the length of the input)
+ 	The Complexity of Parsing
+ 		Parsers that work for any unambiguous grammar are complex and inefficient (O(n^3), where n is the length of the input)
+ 		Compilers use parses that only work for a subset of all unambiguous grammars, but do it in linear time (O(n), where n is the length of the input)
 
 Recursive-Descent Parsing
-	There is a subprogram for each nonterminal in the grammar, which can parse sentences that can be generated by that nonterminal
-	EBNF is ideally suited for being the basis for a recursive-descent parser, because EBNF minimizes the number of nonterminals
-	A grammar for simple expressions:
-	<expr> -> <term> {(+ | -) <term>}
-	<term> -> <factor> {(*|/) <factor>}
-	<factor> -> id | int_constant | (<expr>)
+ 	There is a subprogram for each nonterminal in the grammar, which can parse sentences that can be generated by that nonterminal
+ 	EBNF is ideally suited for being the basis for a recursive-descent parser, because EBNF minimizes the number of nonterminals
+ 	A grammar for simple expressions:
+ 	<expr> -> <term> {(+ | -) <term>}
+ 	<term> -> <factor> {(*|/) <factor>}
+ 	<factor> -> id | int_constant | (<expr>)
 
-	Assume we have a lexical analyzer named 'lex', which puts the next token code in 'nextToken'
-	The coding process when there is only one RHS:
-		For each terminal symbol in the RHS, compare it with the next input token; if they match, continue, else there is an error
-		For each nonterminal symbol in the RHS, call its associated parsing subprogram
+ 	Assume we have a lexical analyzer named 'lex', which puts the next token code in 'nextToken'
+ 	The coding process when there is only one RHS:
+ 		For each terminal symbol in the RHS, compare it with the next input token; if they match, continue, else there is an error
+ 		For each nonterminal symbol in the RHS, call its associated parsing subprogram
 
-		This particular routine does not detect errors
-		Convention: Every parsing routing leaves the next token in nextToken
-	A nonterminal that has more than one RHS requires an initial process to determine which RHS it is to parse
-		The correct RHS is chosen on the basis of the next token of input (the lookahead)
-		The next token is compared with the first token that can be generated by each RHS until a match is found
-		If no match is found, it is a syntax error
+ 		This particular routine does not detect errors
+ 		Convention: Every parsing routing leaves the next token in nextToken
+ 	A nonterminal that has more than one RHS requires an initial process to determine which RHS it is to parse
+ 		The correct RHS is chosen on the basis of the next token of input (the lookahead)
+ 		The next token is compared with the first token that can be generated by each RHS until a match is found
+ 		If no match is found, it is a syntax error
 
 // Example
 /* Function expr
-	parses strings in the language
-	generated by the rule:
-	<expr> -> <term> {(+ | -) <term>}
+ 	parses strings in the language
+ 	generated by the rule:
+ 	<expr> -> <term> {(+ | -) <term>}
 */
 
 void expr() {
 /* parse the first term */
-	term();
+ 	term();
 /* as long as the next token is + or -, call lex to get the next token and parse the next term */
-	while (nextToken == ADD_OP ||
-		nextToken == SUB_OP) {
-		lex();
-		term();
-	}
+ 	while (nextToken == ADD_OP ||
+ 		nextToken == SUB_OP) {
+ 		lex();
+ 		term();
+ 	}
 }
 
 /* term
@@ -143,13 +143,13 @@ Parses strings in the language generated by the rule:
 */
 void term() {
 /* Parse the first factor */
-	factor();
+ 	factor();
 /* as long as the next token is * or /,
- 	next token and parse the next factor */
-	while (nextToken == MULT_OP || nextToken == DIV_OP) {
-		lex();
-		factor();
-	}
+ 	next token and parse the next factor */
+ 	while (nextToken == MULT_OP || nextToken == DIV_OP) {
+ 		lex();
+ 		factor();
+ 	}
 } /* End of function term */
 
 /* Function factor
@@ -160,26 +160,26 @@ generated by the rule:
 void factor() {
 
 /* Determine which RHS */
-	if (nextToken == ID_CODE || nextToken == INT_CODE)
+ 	if (nextToken == ID_CODE || nextToken == INT_CODE)
 /* For the RHS id, just call lex */
-		lex();
+ 		lex();
 /* If the RHS is (<expr>) - call lex to pass over the left parenthesis, call expr, and check for the right parenthesis */
-	else if (nextToken == LP_CODE) {
-		lex();
-		expr();
-		if (nextToken == RP_CODE) {
-			lex();
-		}
-		else
-			error();
-	}	/* End of else if (nextToken == ... */
-	else error();	/* Neither RHS matches */
+ 	else if (nextToken == LP_CODE) {
+ 		lex();
+ 		expr();
+ 		if (nextToken == RP_CODE) {
+ 			lex();
+ 		}
+ 		else
+ 			error();
+ 	}	/* End of else if (nextToken == ... */
+ 	else error();	/* Neither RHS matches */
 }
 
 Trace of the lexical and syntax analyzers on
 (sum + 47) / total
 Note that the parse begins by calling lex and the start
-	symbol routine expr
+ 	symbol routine expr
 
 Next token is: 25 Next lexeme is (
 Enter <expr>
@@ -207,3 +207,131 @@ Next token is: -1 Next lexeme is EOF
 Exit <factor>
 Exit <term>
 Exit <expr>
+
+ 				<expr>
+ 				  |
+ 				<term>
+ 				  |-----------------------------
+ 				<factor>           |	    <factor>
+ 			     -----|------	   |		|
+ 			     |	  |      |         |            |
+ 			------    |       ----      -----       |
+ 			|       <expr>        |	         |      total
+ 			(         |-----      )          /
+ 				  |     |-----
+ 			      <term>   +      |
+ 			          |           47
+ 				<factor>
+ 				  |
+ 				sum
+
+ 	Two distinct grammar characteristics prevent the construction of a recursive-descent parser based on the grammar
+ 	A grammar is left-recursive if a nonterminal can begin its derivation with iteself
+ 		A -> Aα | β
+ 	If a grammar has left recursion, either direct or indirect, it cannot be the basis for a top-down parser
+ 	A grammar can be modified to remove direct left recursion as follows:
+ 		For each nonterminal, A,
+ 		1. Group the A-rules as A -> Aα_1 | ... | Aα_m | β_1 | β_2 | ... | β_n
+ 			where none of the β's begins with A
+ 		2. Replace the original A-rules with
+ 			A -> β_1A' | β_2A' | ... | β_nA'
+ 			A' -> α_1A' | α_2A' | ... | α_mA' | ε
+ 	The other characteristic of grammars that disallows top-down parsing is the lack of pairwise disjointness
+ 		The inability to determine the correct RHS on the basis of one token of lookahead
+ 	Left factoring can resolve the problem
+ 		Replace
+ 		<variable> -> identifier | identifier [<expression>]
+ 		 with
+ 		<variable> -> identifier <new>
+ 		<new> -> ε | [<expression>]
+ 		 or
+ 		<variable> -> identifier [[<expression>]]
+ 		(the outer brackets are metasymbols of EBNF)
+
+Bottom-up Parsing
+ 	Bottom-up parsing reconstructs the derivation of a string starting from the input tokens and working backward toward the start symbol
+ 	At each step, the parser searches for a handle - a substring matching the RHS of a grammar rule that can be reduced
+ 	A handle is significant because reducing it moves the parser one step closer to the start symbol
+ 	Grammar:
+ 		E -> E + T | T
+ 		T -> id
+ 	Parsing the input:
+ 		id + id
+ 	1. Shift 'id' onto the stack
+ 	2. Recognize 'id' as a handle for T -> id: reduce to T
+ 	3. Reduce T to E using E -> T
+ 	4. Shift '+'
+ 	5. Shift second 'id'
+ 	6. Reduce second 'id' to T
+ 	7. Recognize handle 'E + T' and reduce using E -> E + T
+ 	This completes the parse, producing the start symbol E
+
+ 	Intuition about handles:
+ 		Def: β is the handle of the right sentential form γ = αβw if and only if
+ 			S => *_(rm)αAw => _(rm)αβw
+ 		- => *_(rm) means zero or more rightmost derivation steps
+ 		- => _(rm) means one rightmost derivation step
+ 		Def: β is a phrase of the right sentential form γ if and only if
+ 			S => *γ = α_1Aα_2 => + α_1βα_2
+ 		   - => + means one or more derivation steps
+		Def: β is a simple phrase of the right sentential form γ if and only if
+			S => *γ = α_1Aα_2 => + α_1βα_2
+
+	Intuition about handles (continued):
+		The handle of a right sentential form is its leftmost simple phrase
+		Given a parse tree, it is now easy to find the handle
+'		Parsing can be though of as handle pruning
+	Shift-Reduce Algorithms
+		Reduce is the action of replacing the handle on the top of the parse stack with its corresponding LHS
+		Shift is the action of moving the next token to the top of the parse stack
+	Advantages of LR parsers:
+		They will work for nearly all grammars that describe programming languages
+		They work on a larger class of grammars than other bottom-up algorithms, but are as efficient as any other bottom-up parsers
+		They can detect syntax errors as soon as it is possible
+		The LR class of grammars is a superset of the class parsable by LL parsers
+	LR parsers must be constructed with a tool
+	Knuth's insight: A bottom-up parser could use the entire history of the parse, up to the current point, to make parsing decisions
+	There are only a finite and relatively small number of different parse situations that could have occurred so the history could be stored in a parser state, on the parse stack
+
+Structure of an LR Parser:
+Parse Stack	TOP						Input
+----------------------------------			---------------------------------
+S_0 | X_1 | S_1 | ... | X_m | S_m | 			a_i | a_i+1 |  | ... | a_m | $ |
+----------------------------------			---------------------------------
+				|			|
+				|			|
+				-------------------------
+					   |
+				  ---------------------
+				Parser Code	Parsing Table
+
+	An LR configuration stores the state of an LR parser
+	(S_0X_1S_1X_2S_2...X_mS_m, a_ia_i+1...a_n$)
+	LR parsers are table driven, where the table has two components, an ACTION table and a GOTO table
+		The ACTION table specifies the action of the parser, given the parser state and the next token
+			Rows are state names; columns are terminals
+		The GOTO table specifies which state to put on top of the parse stack after a reduction action is done
+			Rows are state names; columns are nonterminalls
+
+	Initial configuration: (S_0, a_1...a_n$)
+	Parser actions:
+		For a Shift, the next symbol of input is pushed onto the stack, along with the state symbol that is part of the Shift specification in the Action table
+		For a Reduce, remove the handle from the stack, along with its state symbols. Push the LHS of the rule. Push the state symbol from the GOTO table, using the state symbol just below the new LHS in the stack and the LHS of the new rule as the row and column into the GOTO table
+		For an Accept, the parse is complete and no errors were found
+		For an Error, the parser calls an error-handling routine
+
+	LR Parsing Table
+		|		Action		| |	GOTO
+	State	| id  | + |  *  | ( | ) |   $   | | E  | T  | F  |
+	0	| S5  |   | S4  |   |   |       | | 1  | 2  | 3  |
+	1	|     |S6 |     |   |   |accept | |    |    |    |
+	2	|     |R2 | S7  |   |R2 |  R2   | |    |    |    |
+	3	|     |R4 | R4  |   |R4 |  R4   | |    |    |    |
+	4	| S5  |   |     |S4 |   |       | | 8  | 2  | 3  |
+	5	|     |R6 | R6  |   |R6 |  R6   | |    |    |    |
+	6	| S5  |   |     |S4 |   |       | |    | 9  | 3  |
+	7	| S5  |   |     |S4 |   |       | |    |    | 10 |
+	8	|     |S6 |     |   |S11|       | |    |    |    |
+	9	|     |R1 | S7  |   |R1 |  R1   | |    |    |    |
+	10	|     |R3 | R3  |   |R3 |  R3   | |    |    |    |
+	11	|     |R5 | R5  |   |R5 |  R5   | |    |    |    | 
