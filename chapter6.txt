@@ -1,0 +1,201 @@
+Data Types
+
+Intro
+A data type defines a collection of data objects and a set of predefined operations on those objects
+A descriptor is the collection of the attributes of a variable
+An object represents an instance of a user-defined (abstract data) type
+One design issue for all data types: What operations are defined and how are they specified?
+
+Primitive Data Types
+	Almost all programming languages provide a set of primitive data types
+	Primitive data types: Those not defined in terms of other data types
+	Some primitive data types are merely reflections of the hardware
+	Others require only a little non-hardware support for their implementation
+
+Primitive Data Types: Integer
+	Almost always an exact reflection of the hardware so the mapping is trivial
+	There may be as many as eight different integer types in a language
+	Java's signed integer sizes: byte, short, int, long
+
+Primitive Data Types: Floating Point
+	Model real number, but only as approximations
+	Languages for scientific use support at least two floating-point types (e.g., float, double; sometimes more)
+	Usually exactly like the hardware, but not always
+	IEEE Floating-Point Standard 754
+
+Primitive Data Types: Complex
+	Some languages support a complex type, e.g., C99, Fortran, and Python
+	Each value consists of two floats, and the real part and the imaginary part
+	Literal form (in Python):
+		(7 + 3j), where 7 is the real part and 3 is the imaginary part
+
+Primitive Data Types: Decimal
+	For business applications (money)
+		Essential to COBOL
+		C# offers a decimal data type
+	Store a fixed number of decimal digits, in coded form - Binary Coded Decimal (BCD)
+	Advantage: accuracy
+	Disadvantages: limited range, wastes memory
+
+Primitive Data Types: Boolean
+	Simplest of all
+	Range of values: two elements, one for "true" and one for "false"
+	Could be implemented as bits, but often as bytes
+		Advantage: readability
+
+Primitive Data Types: Character
+	Stored as numeric codings
+	Most commonly used coding: ASCII
+	An alternative, 16-bit coding: Unicode (UCS-2)
+		Includes characters from most natural languages
+		Originally used in Java
+		Now supported by many languages
+	32-bit Unicode (UCS-4)
+		Supported by Fortran, starting with 2003
+
+Character String Types
+	Values are sequences of characters
+	Design Issues:
+		is it a primitive type or just a special kind of array?
+		Should the length of strings be static or dynamic?
+
+Character String Type Operations
+	Typical operations:
+		Assignment and copying
+		Comparison (=, >, etc.)
+		Catenation
+		Substring reference
+		Pattern matching
+
+Character String Type in Certain Languages
+	C and C++
+		Not primitive
+		Use char arrays and a library of functions that provide operations
+	SNOBOL4 (a string manipulation language)
+		Primitive
+		Many operations, including elaborate pattern matching
+	Fortran and Python
+		Primitive type with assignment and several operations
+	Java (and C#, Ruby, and Swift)
+		Primitive via the String class
+	Perl, JavaScript, Ruby, and PHP
+		provide built-in pattern matching, using regular expressions
+
+Character String Length Options
+	Static: COBOL, Java's String class
+	Limited Dynamic Length: C and C++
+		In these languages, a special character is used to indicate the end of a string's characters, rather than maintaining the length
+	Dynamic (no maximum): SNOBOL4, Perl, JavaScript
+
+Character String Type Evaluation
+	Aid to writability
+	As a primitive type with static length, they are inexpensive to provide
+	Dynamic length is nice, but is it worth the expense?
+
+Character String Implementation
+	Static length: compile-time descriptor
+	Limited dynamic length: may need a run-time descriptor for length (but not in C and C++)
+	Dynamic length: need run-time descriptor; allocation/deallocation is the biggest implementation problem
+
+Compile-Time and Run-Time Descriptors
+	Static String
+	Length
+	Address
+	----------
+	Compile-time descriptor for static strings
+
+	Limited dynamic string
+	Maximum length
+	Current length
+	Address
+	----------
+	Run-time descriptor for limited dynamic strings
+
+User-Defined Ordinal Types
+	An ordinal type is one in which the range of possible values can be easily associated with the set of positive integers
+	Examples of primitive ordinal types in Java
+		integer
+		char
+		Boolean
+
+Enumeration Types
+	All possible values, which are named constants, are provide in the definition
+	C# example
+		enum days {mon, tue, wed, thu, fri, sat, sun};
+	Design issues
+		is an enumeration constant allowed to appear in more than one type definition, and if so, how is the type of an occurrence of that constant checked?
+		are enumeration values coerced to integer?
+		any other type is coerced to an enumeration type?
+
+Evaluation of Enumerated Type
+	aid to readability, e.g., no need to code a color as a number
+	aid to reliability, e.g., compiler can check:
+		operations (don't allow colors to be added)
+		no enumeration variable can be assigned a value outside its defined range
+		C#, F#, Swift, and Java 5.0 provide better support for enumeration than C++ because enumeration type variables in these languages are not coerced into integer types
+
+Array Types
+	an array is a homogeneous aggregate of data elements in which an individual element is identified by its position in the aggregate, relative to the first element
+
+Array Design Issues
+	What types are legal for subscripts?
+	Are subscripting expressions in element references range checked?
+	When are subscript ranges bound?
+	When does allocation take place?
+	Are ragged or rectangular multidimensional arrays allowed, or both?
+	What is the max number of subscripts?
+	Can array objects be initialized?
+	Are any kind of slices supported?
+
+Array Indexing
+	Indexing (or subscripting) is a mapping from indices to elements array_name(index_value_list) -> an element
+	Index Syntax
+		Fortran and Ada use parentheses
+			Ada explicitly uses parentheses to show uniformity between array references and function calls because both are mappings
+		Most other languages use brackets
+
+Array Index (Subscript) Types
+	FORTRAN, C: integer only
+	Java: integer types only
+	Index range checking
+		C, C++, Perl, and Fortran don't specify range checking
+		Java, ML, C# specify range checking
+
+Subscript Binding and Array Categories
+	Static: subscript ranges are statically bound, and storage allocation is static (before run-time)
+		Advantage: efficiency (no dynamic allocation)
+	Fixed stack-dynamic: subscript ranges are statically bound, but the allocation is done at declaration time
+		Advantage: space efficiency
+	Fixed heap-dynamic: similar to fixed stack-dynamic; storage binding is dynamic but fixed after allocation (i.e., binding is done when requested and storage is allocated from heap, not stack)
+	Heap-dynamic: binding of subscript ranges and storage allocation is dynamic and can change any number of times
+		Advantage: flexibility (arrays can grow or shrink during program execution)
+	C and C++ arrays that include static modifier are static
+	C and C++ arrays without static modifier are fixed stack-dynamic
+	C and C++ provide fixed heap-dynamic arrays
+	C# includes a second array class ArrayList that provides fixed heap-dynamic
+	Perl, JavaScript, Python, and Ruby support heap-dynamic arrays
+
+Heterogeneous Arrays
+	A heterogeneous array is one in which the elements need not be of the same type
+	Supported by Perl, Python, JavaScript, and Ruby
+
+Array Initialization
+	Some language allow initialization at the time of storage allocation
+		C, C++, Java, Swift, and C#
+		C# example:
+			int list [] = {4, 5, 7, 83}
+		Character strings in C and C++:
+			char name [] "Freddie";
+		Arrays of strings in C and C++:
+			char *names [] = {"Bob", "Jake", "Joe"];
+		Java initialization of String objects
+			String[] names = {"Bob", "Jake", "Joe"};
+		Python
+			List comprehensions
+				list = [x ** 2 for x in range(12) if x % 3 == 0]
+			Puts [0, 9, 36, 81] in list
+
+Arrays Operations
+	APL provides the most powerful array processing operations for vectors and matrixes as well as unary operators (for example, to reverse column elements)
+	Python provides array assignment, although it is only a reference change. Python also supports array catenation and element membership operations
+	Ruby also provides array catenation
