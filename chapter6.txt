@@ -199,3 +199,138 @@ Arrays Operations
 	APL provides the most powerful array processing operations for vectors and matrixes as well as unary operators (for example, to reverse column elements)
 	Python provides array assignment, although it is only a reference change. Python also supports array catenation and element membership operations
 	Ruby also provides array catenation
+
+Rectangular and Jagged Arrays
+	A rectangular array is a multi-dimensional array in which all of the rows have the same number of elements and all columns have the same number of elements
+	A jagged matrix has rows with varying number of elements
+		Possible when multi-dimensional arrays actually appear as arrays of arrays
+	C, C++, and Java support jagged arrays
+	F# and C# support rectangular arrays and jagged arrays
+
+Slices
+	A slice is some substructure of an array; nothing more than a referencing mechanism
+	Slices are only useful in languages that have array operations
+
+Slice Examples
+	Python
+	vector = [2, 4, 6, 8, 10, 12, 14, 16]
+	mat = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+	vector (3:6) is a three-element array
+	mat[0][0:2] is the first and second element of the first row of mat
+	Ruby supports slices with the slice method
+	list.slice(2, 2) returns the third and fourth elements of list
+
+Implementation of Arrays
+	Access function maps subscript expressions to an address in the array
+	Access function for single-dimensioned arrays:
+	address(list[k]) = address(list[lower_bound]) + ((k-lower_bound) * element_size)
+
+Accessing Multi-dimensional Arrays
+	Two common ways:
+		Row major order (by rows) - used in most languages
+		Column major order (by columns) - used in Fortran
+		A compile-time descriptor for a multidimensional array
+				Multidimensioned array
+				Element type
+				Index type
+				Number of dimensions
+				Index range 0
+					...
+				Index range n - 1
+				Address
+
+Locating an Element in a Multi-dimensioned Array
+	General format
+		Location (a[i, j]) = address of a [row_lb, col_lb] + (((i - row_lb) * n) + (j - col_lb)) * element_size
+
+Compile-Time Descriptors
+
+Associative Arrays
+	An associative array is an unordered collection of data elements that are indexed by an equal number of values called keys
+		User-defined keys must be stored
+	Design issues:
+		what is the form of references to elements?
+		is the size static or dynamic?
+	Built-in type in Perl, Python, Ruby, and Swift
+
+Associative Arrays in Perl
+	Names begin with %
+		%hi_temps = ("Mon" => 77, "Tue" => 79, "Wed" => 65, ...);
+	Subscripting is done using braces and keys
+		$hi_temps{"Wed"} = 83;
+	Elements can be removed with delete
+		delete $hi_temps{"Tue"};
+
+Record Types
+	A record is a possibly heterogeneous aggregate of data elements in which the individual elements are identified by names
+	Design issues:
+		what is the syntactic form of references to the field?
+		are elliptical references allowed
+
+Definition of Records in COBOL
+	COBOL uses level numbers to show nested records; others use recursive definition
+		01 EMP-REC.
+			02 EMP-NAME.
+				05 FIRST PIC X(20).
+				05 MID   PIC X(10).
+				05 LAST  PIC X(20).
+			02 HOURLY-RATE PIC 99V99.
+
+References to Records
+	Record field references
+		1. COBOL
+		field_name OF record_name_1 OF...OF record_name_n
+		2. Others (dot notation)
+		record_name_1.record_name_2. ...record_name_n.field_name
+
+	Fully qualified references must include all record names
+	Elliptical references allow leaving out record names as long as the reference is unambiguous, for example in COBOL
+	FIRST, FIRST OF EMP-NAME, and FIRST of EMP-REC are elliptical references to the employee's first name
+
+Evaluation and Comparison to Arrays
+	Records are used when collection of data values is heterogeneous
+	Access to array elements is much slower than access to record fields, because subscripts are dynamic (field names are static)
+	Dynamic subscripts could be used with record field access, but it would disallow type checking, and it would be much slower
+
+Implementation of Record Type
+	Offset address relative to the beginning of the records is associated with each field
+
+Tuple Types
+	A tuple is a data type that is similar to a record, except that the elements are not named
+	Used in Python, ML, and F# to allow functions to return multiple values
+		Python
+			Closely related to its lists, but immutable
+			Create with a tuple literal
+				myTuple = (3, 5.8, 'apple')
+			Referenced with subscripts
+			Catenation with + and deleted with del
+	ML
+		val myTuple = (3, 5.8, 'apple');
+	- Access as follows:
+		#1(myTuple) is the first element
+	- A new tuple type can be defined
+		type intReal = int * real;
+			(the asterisk is just a separator)
+	F#
+		let tup = (3, 5, 7)
+		let a, b, c = tup
+		This assigns a tuple to a tuple pattern (a, b, c)
+
+List Types
+	Lists in Lisp and Scheme are delimited by parentheses and use no commas 
+		(A B C D) and (A (B C) D)
+	Data and code have the same form
+		As data, (A B C) is literally what it is
+		As code, (A B C) is the function A applied to the parameters B and C
+	The interpreter needs to know which a list is, so if it is data, we quote it with an apostrophe
+		'(A B C) is data
+	List Operations in Scheme
+		CAR returns the first element of its list parameter
+			(CAR '(A B C)) returns A
+		CDR returns the remaineder of its list parameter after the first element has been removed
+			(CDR '(A B C)) returns (B C)
+		- CONS puts its first parameter into its second parameter, a list, to make a new list
+			(CONS 'A (B C)) returns (A B C)
+		- LIST returns a new list of its parameters
+			(LIST 'A 'B '(C D)) returns (A B (C D))
