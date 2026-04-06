@@ -334,3 +334,238 @@ List Types
 			(CONS 'A (B C)) returns (A B C)
 		- LIST returns a new list of its parameters
 			(LIST 'A 'B '(C D)) returns (A B (C D))
+	List Operations in ML
+		Lists are written in brackets, and the elements are separated by commas
+		List elements must be of the same type
+		The Scheme CONS function is a binary operator in ML, :: 3 :: [5, 7, 9]	
+		The Scheme CAR and CDR functions are named hd and tl, respectively
+	F# Lists
+		Like those of ML, except elements are separated by semicolons and hd and tl are methods of the List class
+	Python Lists
+		The list data type also serves as Python's arrays
+		Unlike Scheme, Common Lisp, ML, and F#, Python's lists are mutable
+		Elements can be of any type
+		Create a list with an assignment
+			myList = [3, 5.8, "grape"]
+		List elements are referenced with subscripting, with indices beginning at zero
+			x = myList[1]
+		List elements can be deleted with del
+			del myList[1]
+		List Comprehensions - derived from set notation
+			[x * x for x in range(6) if x % 3 == 0]
+		range(6) creates [0, 1, 2, 3, 4, 5]
+		Constructed list: [0, 9]
+	Haskell's List Comprehensions
+		[n * n | n <- [1..10]]
+	F#'s List Comprehensions
+		let myArray = [|for i in 1 .. 5 -> (i * i) |]
+	Both C# and Java supports lists through their generic heap-dynamic collection classes, List and ArrayList, respectively
+
+Unions Types
+	A union is a type whose variables are allowed to store different type values at different times during execution
+	Design issue
+		Should type checking be required?
+Discriminated vs. Free Unions
+	C and C++ provide union constructs in which there is no language support for type checking; the union in these languages is called free union
+	Type checking of unions require that each union include a type indicator called a discriminant
+		Supported by ML, Haskell, and F#
+
+Unions in F#
+	Defined with a type statement using OR
+		type intReal =
+			| IntValue of int
+			| RealValue of float;;
+	intReal is the new type
+	intValue and RealValue are constructors
+
+	To create a value of type intReal:
+		let ir1 = IntValue 17;;
+		ley ir2 = RealValue 3.4;;
+	Accessing the value of a union is done with pattern matching
+		match pattern with
+			| expressions_list_1 -> expression_1
+			| ...
+			| expression_list_n -> expression_n
+	Pattern can be any data type
+	The expression list can have wild cards (_)
+	Example:
+		let a = 7;;
+		let b = "grape";;
+		let x = match (a, b) with
+			| 4, "apple" -> apple
+			| _, "grape" -> grape
+			| _ -> fruit;;
+	To display the type of the intReal union:
+		let printType value =
+			match value with
+				| IntValue value -> printfn "int"
+				| RealValue value -> printfn "float";;
+	If ir1 and ir2 are defined as previously, (i.e., let ir1 = intValue 17;; let ir2 = RealValue 3.4;;)
+	printType ir1 returns int
+	printType ir2 returns float
+
+Evaluation of Unions
+	Free unions are unsafe
+		Do not allow type checking
+	Java and C# do not support unions
+		Reflective of growing concerns for safety in programming language
+
+Pointer and Reference Types
+	A pointer type variable has a range of values that consists of memory addresses and a special value, nil
+	Provide the power of indirect addressing
+	Provide a way to manage dynamic memory
+	A pointer can be used to access a location in the area where storage is dynamically created (usually called a heap)
+
+Design Issues of Pointers
+	What are the scope of and lifetime of a pointer variable?
+	What is the lifetime of a heap-dynamic variable?
+	Are pointers restricted as to the type of value to which they can point?
+	Are pointers used for dynamic storage management, indirect addressing, or both?
+	Should the language support pointer types, reference types, or both?
+
+Pointer Operations
+	Two fundamental operations: assignment and dereferencing
+	Assignment is used to set a pointer variable's value to some useful address
+	Dereferencing yields the value stored at the location represented by the pointer's value
+		Dereferencing can be explicit or implicit
+		C++ uses an explicit operation via *
+			j = *ptr
+		sets j to the value located at ptr
+
+Problems with Pointers
+	Dangling pointers (dangerous)
+		A pointer points to a heap-dynamic variable that has been deallocated
+	Lost heap-dynamic variable
+		An allocated heap-dynamic variable that is no longer accessible to the user program (often called garbage)
+		Pointer p1 is set to point to a newly created heap-dynamic variable
+		Pointer p1 is later set to point to another newly created heap-dynamic variable
+		The process of losing heap-dynamic variables is called memory leakage
+
+Pointers in C and C++
+	Extremely flexible but must be used with care
+	Pointers can point at any variable regardless of when or where it was allocated
+	Used for dynamic storage management and addressing
+	Pointer arithmetic is possible
+	Explicit dereferencing and address-of operators
+	Domain type need not be fixed (void *)
+		void * can point to any type and can be type checked (cannot be de-referenced)
+
+Pointer Arithmetic in C and C++
+	float stuff[100];
+	float *p;
+	p = stuff;
+
+	*(p + 5) is equivalent to stuff[5] and p[5]
+	*(p + i) is equivalent to stuff[i] and p[i]
+
+Reference Types
+	C++ includes a special kind of pointer type called a reference type that is used primarily for formal parameters
+		Advantages of both pass-by-reference and pass-by-value
+	Java extends C++'s reference variables and allows them to replace pointers entirely
+		References are references to objects, rather than being addresses
+	C# includes both the references of Java and the pointers of C++
+
+Evaluation of Pointers
+	Dangling pointers and dangling objects are problems as is heap management
+	Pointers are like goto's -- they widen the range of cells that can be accessed by a variable
+	Pointers or references are necessary for dynamic data structures -- so we can't design a language without them
+
+Representation of Pointers
+	Large computers use single values
+	Intel microprocessors use segment and offset
+
+Dangling Pointer Problem
+	Tombstone: extra heap cell that is a pointer to the heap-dynamic variable
+		The actual pointer variable points only at tombstones
+		When heap-dynamic variable de-allocated, tombstone remains but set to nil
+		Costly in time and space
+	Locks-and-keys: Pointer values are represented as (key, address) pairs
+		Heap-dynamic variables are represented as variable plus cell for integer lock value
+		When heap-dynamic variable allocated, lock value is created and placed in lock cell and key cell of pointer
+
+Heap Management
+	A very complex run-time process
+	Single-size cells vs. variable-size cells
+	Two approaches to reclaim garbage
+		Reference counters (eager approach): reclamation is gradual
+		Mark-sweep (lazy approach): reclamation occurs when the list of variable space becomes empty
+
+Reference Counter
+	Reference counters: maintain a counter in every cell that stores the number of pointers currently pointing at the cell
+		Disadvantages: space required, execution time required, complications for cells connected circularly
+		Advantage: it's intrinsically incremental, so significant delays in the application execution are avoided
+
+Mark-Sweep
+	The run-time system allocates storage cells as requested and disconnects pointers from cells as necessary
+	Mark-sweep then begins
+		Every heap cell has an extra bit used by collection algorithm
+		All cells initially set to garbage
+		All pointers traced into heap, and reachable cells marked as not garbage
+		All garbage cells returned to list of available cells
+	Disadvantages: in its original form, is was done too infrequently. When done, it caused significant delays in application execution
+		Contemporary mark-sweep algorithms avoid this by doing it more often - called incremental mark-sweep
+
+Variable-Size Cells
+	All the difficulties of single-size cells plus more
+	Required by most programming languages
+	If mark-sweep is used, additional problems occur
+		The initial setting of the indicators of all cells in the heap is difficult
+		The marking process is nontrivial
+		Maintaining the list of available space is another source of overhead
+
+Optional Types
+	Optional types are useful when there is a need for a variable to indicate that it currently has no value
+	C#, F#, and Swift, among others, have optional types
+	Reference types in C# are already optional types (use null for no value)
+	Value types in C# (struct types can be declared to be optional by attaching a question mark to the type name in their declaration
+		int? x;
+	The no-value is null, which can be assigned to x and x can be tested for it
+	In Swift, nil is used instead of null
+
+Type Checking
+	Generalize the concept of operands and operators to include subprograms and assignments
+	Type checking is the activity of ensuring that the operands of an operator are of compatible types
+	A compatible type is one that is either legal for the operator, or is allowed under language rules to be implicitly converted, by compiler-generated code, to a legal type
+		This automatic conversation is called a coercion
+	A type error is the application of an operator to an operand of an appropriate type
+	If all type bindings are static, nearly all type checking can be static
+	If type bindings are dynamic, type checking must be dynamic
+	A programming language is strongly typed if type errors are always detected
+	Advantage of strong typing: allows the detection of the misuses of variables that result in type errors
+
+Strong Typing
+	Language examples:
+		C and C++ are not: parameter type checking can be avoided; unions are not type checked
+		Java and C# are almost (because of explicit type casting)
+		ML and F# are
+	Coercion rules strongly affect strong typing -- they can weaken it considerably (C++ versus ML and F#)
+	Although Java has just half the assignment coercions of C++, its strong typing is still far less effective than that of Ada
+
+Name Type Equivalence
+	Name type equivalence means the two variables have equivalent types if they are in either the same declaration or in declarations that use the same type name
+	Easy to implement but highly restrictive:
+		Subranges of integer types are not equivalent with integer types
+		Formal parameters must be the same type as their corresponding actual parameters
+
+Structure Type Equivalence
+	Structure type equivalence means that two variables have equivalent types if their types have identical structures
+	More flexible, but harder to implement
+	Consider the problem of two structured types:
+		Are two record types equivalent if they are structurally the same but use different field names?
+		Are two array types equivalent if they are the same except that the subscripts are different?
+		(e.g. [1..10] and [0..9])
+		Are two enumeration types equivalent if their components are spelled differently?
+		With structural type equivalence, you cannot differentiate between types of the same structure (e.g. different units of speed, both float)
+
+Theory and Data Types
+	Type theory is a broad area of study in mathematics, logic, computer science, and philosophy
+	Two branches of type theory in computer science:
+		Practical - data types in commercial languages
+		Abstract - typed lambda calculus
+	A type system is a set of types and the rules that govern their use in programs
+	Formal model of a type system is a set of types and a collection of functions that define the type rules
+		Either an attribute grammar or a type map could be used for the functions
+		Finite mappings - model arrays and functions
+		Cartesian products - model tuples and records
+		Set unions - model union types
+		Subsets - model substypes
