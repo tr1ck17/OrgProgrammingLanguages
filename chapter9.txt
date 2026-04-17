@@ -1,0 +1,36 @@
+Subprograms
+
+Introduction
+	Two fundamental abstraction facilities
+		Process abstraction
+			Emphasized from early days
+		Data abstraction
+			Emphasized in the 1980s
+
+Fundamentals of Subprograms
+	Each subprogram has a single entry point
+	The calling program is suspended during execution of the called subprogram
+	Control always returns to the caller when the called subprogram's execution terminates
+
+Basic Definitions
+	A subprogram definition describes the interface to and the actions of the subprogram abstraction
+		In Python, function definitions are executable; in all other languages, they are non-executable
+		In Ruby, function definitions can appear either in or outside of class definitions. If outside, they are methods of Object. They can be called without an object, like a function
+		In Lua, all functions are anonymous
+	A subprogram call is an explicit request that the subprogram be executed
+	A subprogram header is the first part of the definition, including the name, the kind of subprogram, and the formal parameters
+	The parameter profile (aka signature) of a subprogram is the number, order, and types of its parameters
+	The protocol is a subprogram's parameter profile and, if it is a function, its return type
+	Function declarations in C and C++ are often called prototypes
+	A subprogram declaration provides the protocol, but not the body, of the subprogram
+	A formal parameter is a dummy variable listed in the subprogram header and used in the subprogram
+	An actual parameter represents a value or address used in the subprogram call statement
+
+Actual/Formal Parameter Correspondence
+	Positional
+		The binding of actual parameters to formal parameters is by position: the first actual parameter is bound to the first formal parameter and so forth
+		Safe and effective
+	Keyword
+		The name of the formal parameter to which an actual parameter is to be bound is specified with the actual parameter
+		Advantage: Parameters can appear in any order, thereby avoiding parameter correspondence errors
+		Disadvantage: User must know the formal parameter's names
