@@ -171,3 +171,37 @@ Blocks
 	}
 	The lifetime of temp in the above example begins when control enters the block
 	An advantage of using a local variable like temp is that it cannot interfere with any other variable with the same name
+
+Implementing Blocks
+	Two Methods:
+		Treat blocks as parameter-less subprograms that are always called from the same location
+			Every block has an activation record; an instance is created every time the block is executed
+		Since the maximum storage required for a block can be statically determined, this amount of space can be allocated after the local variables in the activations record
+
+Implementing Dynamic Scoping
+	Deep Access: non-local references are found by searching the activation record instances on the dynamic chain
+		Length of the chain cannot be statically determined
+		Every activation record instance must have variable names
+	Shallow Access: put locals in a central place
+		One stack for each variable name
+		Central table with an entry for each variable name
+
+Using Shallow Access to Implement Dynamic Scoping
+
+	void sub3() {						main calls sub1
+		int x, z;					sub1 calls sub1
+		x = u + v;					sub1 calls sub2
+		...						sub2 calls sub3
+	}
+	void sub2() {
+		int w, x;
+		...
+	}
+	void sub1() {
+		int v, w;
+		...
+	}
+	void main() {
+		int v, u;
+		...
+	}
